@@ -26,7 +26,7 @@ const LoginScreen = () => {
       email: email,
       password: password,
     };
-    axios.post('http://192.168.1.74:8000/login', user).then(Response => {
+    axios.post('http://192.168.1.2:8000/login', user).then(Response => {
       console.log(Response);
       const token = Response.data.token;
       AsyncStorage.setItem('authToken', token);
@@ -38,26 +38,27 @@ const LoginScreen = () => {
     <SafeAreaView
       style={{flex: 1, backgroundColor: 'white', alignItems: 'center'}}>
       <View>
-        <Image
+        {/* <Image
           style={{width: 150, height: 100}}
           source={{
             uri: 'https://brandlogos.net/wp-content/uploads/2016/10/amazon-logo-preview.png',
           }}
-        />
+        /> */}
+        <Text style={{marginTop: 50, fontWeight: '900', fontSize: 40, color: 'black'}}>TCL_STORE</Text>
       </View>
       <View>
         <Text
           style={{
             fontSize: 17,
             fontWeight: 'bold',
-            marginTop: 12,
+            marginTop: 80,
             color: '#041E42',
           }}>
           Đăng nhập với tài khoản của bạn
         </Text>
       </View>
       <KeyboardAvoidingView>
-        <View style={{marginTop: 70}}>
+        <View style={{marginTop: 10}}>
           <View
             style={{
               flexDirection: 'row',

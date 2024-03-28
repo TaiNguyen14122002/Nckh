@@ -6,57 +6,61 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios';
 
-const RegisterScreen = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [name, setName] = useState("");
+const AddTicker = () => {
+    const [ticket_Name, setTicket_Name] = useState("");
+    const [Price, setPrice] = useState("");
+    const [Note, setNote] = useState("");
     const navigation = useNavigation();
-    const handleRegister = () => {
-        const user = {
-            name: name,
-            email: email,
-            password: password,
+
+    
+    const handleAdd_Ticket = () => {
+        const Ticket = {
+            ticket_Name: ticket_Name,
+            Price: Price,
+            Note: Note,
         };
 
         // send a post request to the backend API
-        axios.post("http://192.168.1.2:8000/register", user)
+        axios.post("http://192.168.1.2:8000/AddTicket", Ticket)
         .then((message) => {
             console.log(message);
-            Alert.alert("Thông báo", "Đăng ký tài khoản thành công");
-            setName("");
-            setEmail("");
-            setPassword("");
-            navigation.navigate('Login');
+            Alert.alert("Thông báo", "Thêm vé thành công");
+            setTicket_Name("");
+            setPrice("");
+            setNote("");
+            navigation.navigate('Main');
         })
             .catch((error) => {
                 Alert.alert(
                     "Lỗi",
-                    "Đăng ký tài khoản thất bại"
+                    "Thêm vé thất bại"
                 );
-                console.log("registration failed", error)
+                console.log("Add Ticket failed", error)
                 console.log(name, email, password)
             });
     };
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "white", alignItems: 'center' }}>
-            <View>
-                <Image
-                    style={{ width: 150, height: 100 }}
-                    source={{
-                        uri: "https://brandlogos.net/wp-content/uploads/2016/10/amazon-logo-preview.png",
-                    }} />
-            </View>
-            <View>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "white", alignItems: 'center'}}>
+            {/* <View>
                 <Text style={{
-                    fontSize: 17,
+                    fontSize: 27,
                     fontWeight: "bold",
                     marginTop: 12,
                     color: "#041E42"
                 }}
                 >
-                    Đăng ký tài khoản
+                    
                 </Text>
+            </View> */}
+
+            <View style={{marginTop: 20}}>
+                <Image
+                    style={{ width: 350, height: 200 }}
+                    source={{
+                        uri: "https://res.klook.com/image/upload/q_85/c_fill,w_750/v1692178730/nzwespti6zcfe6h3ljwy.jpg",
+                    }} />
             </View>
+            
             <KeyboardAvoidingView>
 
 
@@ -74,10 +78,10 @@ const RegisterScreen = () => {
                     >
                         <Entypo style={{ marginLeft: 8 }} name="user" size={24} color="gray" />
                         <TextInput
-                            value={name}
-                            onChangeText={(text) => setName(text)}
-                            style={{ color: "gray", marginVertical: 10, width: 300, fontSize: name ? 16 : 16 }}
-                            placeholder="Nhập tên người dùng"
+                            value={ticket_Name}
+                            onChangeText={(text) => setTicket_Name(text)}
+                            style={{ color: "gray", marginVertical: 10, width: 300, fontSize: ticket_Name ? 16 : 16 }}
+                            placeholder="Nhập tên loại vé"
                         />
                     </View>
                 </View>
@@ -96,14 +100,13 @@ const RegisterScreen = () => {
 
                         <MaterialCommunityIcons style={{ marginLeft: 8 }} name="email" size={24} color="gray" />
                         <TextInput
-                            value={email}
-                            onChangeText={(text) => setEmail(text)}
-                            style={{ color: "gray", marginVertical: 10, width: 300, fontSize: email ? 16 : 16 }}
-                            placeholder="Nhập email"
+                            value={Price}
+                            onChangeText={(text) => setPrice(text)}
+                            style={{ color: "gray", marginVertical: 10, width: 300, fontSize: Price ? 16 : 16 }}
+                            placeholder="Nhập giá vé"
                         />
                     </View>
                 </View>
-
                 <View style={{ marginTop: 10 }}>
                     <View style={{
                         flexDirection: 'row',
@@ -115,26 +118,25 @@ const RegisterScreen = () => {
                         marginTop: 30
                     }}
                     >
-                        <Entypo style={{ marginLeft: 8 }} name="lock" size={24} color="gray" />
+
+                        <MaterialCommunityIcons style={{ marginLeft: 8 }} name="email" size={24} color="gray" />
                         <TextInput
-                            value={password}
-                            secureTextEntry={true}
-                            onChangeText={(text) => setPassword(text)}
-                            style={{ color: "gray", marginVertical: 10, width: 300, fontSize: password ? 16 : 16 }}
-                            placeholder="Nhập Password"
+                            value={Note}
+                            onChangeText={(text) => setNote(text)}
+                            style={{ color: "gray", marginVertical: 10, width: 300, fontSize: Note ? 16 : 16 }}
+                            placeholder="Ghi chú"
                         />
                     </View>
                 </View>
 
-                <View style={{ marginTop: 12, flexDirection: "row", alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Text>Lưu thông tin</Text>
+                
 
-                </View>
+                
 
                 <View style={{ marginTop: 50 }} />
 
                 <Pressable
-                    onPress={handleRegister}
+                    onPress={handleAdd_Ticket}
                     style={{
                         width: 200,
                         backgroundColor: "#428bca",
@@ -145,23 +147,23 @@ const RegisterScreen = () => {
                     }}
                 >
                     <Text style={{ textAlign: 'center', color: 'white', fontSize: 15, fontWeight: "bold" }}>
-                        Đăng ký
+                        Thêm vé
                     </Text>
                 </Pressable>
 
-                <Pressable
+                {/* <Pressable
                     onPress={() => navigation.navigate("Login")}
                     style={{ marginTop: 15 }}
                 >
                     <Text style={{ textAlign: 'center', color: "gray", fontSize: 16 }}>
                         Bạn đã có tài khoản ? Đăng nhập
                     </Text>
-                </Pressable>
+                </Pressable> */}
             </KeyboardAvoidingView>
         </SafeAreaView>
     )
 }
 
-export default RegisterScreen
+export default AddTicker
 
 const styles = StyleSheet.create({})

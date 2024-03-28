@@ -21,32 +21,24 @@ const ProductItem = ({item}) => {
     }, 60000);
   };
 
-  const LinkImage = 'https://p16-va.lemon8cdn.com/tos-alisg-v-a3e477-sg/6486523394594f58948026dde1e799ca~tplv-tej9nj120t-origin.webp';
+  const LinkImage = 'https://blogcdn.muaban.net/wp-content/uploads/2022/07/23071106/bao-tang-my-thuat-thanh-pho-ho-chi-minh-6.jpg';
   return (
     <Pressable
       style={{marginHorizontal: 10}}
-      onPress={() =>
-        navigation.navigate('News_Details', {
-          id: item.id,
-          product_Name: item.product_Name,
-          product_image: item.product_image,
-          product_information: item.product_information,
-          product_createdAt: item.product_createdAt,
-          
-        })
-      }>
+      >
       <View style={{flexDirection: 'row'}}>
         <Image
           style={{
+            marginTop: 10,
             width: 110,
-            height: 140,
+            height: 150,
             resizeMode: 'contain',
             borderRadius: 5,
             borderColor: '#ccc',
             borderWidth: 2,
           }}
-          source={{uri: item?.product_image}}
-          // source={{uri: LinkImage}}
+          // source={{uri: item?.image}}
+           source={{uri: LinkImage}}
         />
         <View>
           <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
@@ -58,10 +50,10 @@ const ProductItem = ({item}) => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontWeight: 'bold',
-                color: 'black',
-                fontSize: 18,
+                color: '#f5f5f5',
+                fontSize: 25,
               }}>
-              {item?.product_Name} 
+              {item?.ticket_Name} 
               {/* Tên tin tức */}
             </Text>
           </Text>
@@ -87,30 +79,54 @@ const ProductItem = ({item}) => {
                   fontWeight: '400',
                   width: 200,
                   marginLeft: -3,
-                  marginTop: 10,
+                  marginTop: 0,
                   marginLeft: 10,
                   flexWrap: 'wrap',
+                  color: '#f5f5f5',
                 }}>
-                
-                {item?.product_information}
+                <Text style={{fontWeight: 'bold', color: 'white',}}>Ghi chú:  </Text> 
+                {item?.Note}
                 {/* Thông tin tin tức */}
               </Text>
             </View>
           </View>
           <View
             style={{
-              marginTop: 10,
+              marginTop: 0,
               alignItems: 'flex-end',
               justifyContent: 'flex-end',
+              color: '#f5f5f5',
             }}>
-            <Text style={{fontSize: 13, fontWeight: 'bold', color: '#1d1d1f'}}>
+            <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>
               
-              {item?.product_createdAt}đ
+            {item?.Price.toLocaleString('vi-VN')}đ
               {/* Ngày cập nhập tin tức */}
             </Text>
           </View>
+          <Pressable
+        onPress={() => addItemToCart(item)}
+        style={{
+          width: 70,
+          backgroundColor: '#1d1d1f',
+          padding: 7,
+          borderRadius: 20,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginHorizontal: 10,
+          marginTop: 10,
+        }}>
+        {addedToCart ? (
+          <View>
+            <Text style={{color: 'white'}}>Đã thêm</Text>
+          </View>
+        ) : (
+          <Text style={{color: 'white'}}>Thêm vé</Text>
+        )}
+      </Pressable>
         </View>
+        
       </View>
+      
     </Pressable>
   );
 };

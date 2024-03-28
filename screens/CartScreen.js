@@ -22,8 +22,9 @@ import {
     const cart = useSelector((state) => state.cart.cart);
     console.log(cart);
     const total = cart
-      ?.map((item) => item.price * item.quantity)
+      ?.map((item) => item.Price * item.quantity)
       .reduce((curr, prev) => curr + prev, 0);
+      const formattedTotal = total?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }); // Đổi 'VND' nếu đơn vị tiền tệ khác
     const dispatch = useDispatch();
     const increaseQuantity = (item) => {
       dispatch(incementQuantity(item));
@@ -35,6 +36,8 @@ import {
       dispatch(removeFromCart(item));
     };
     const navigation = useNavigation();
+
+    const LinkImage = 'https://blogcdn.muaban.net/wp-content/uploads/2022/07/23071106/bao-tang-my-thuat-thanh-pho-ho-chi-minh-6.jpg';
     return (
       <ScrollView style={{  flex: 1, backgroundColor: "white" }}>
         <View
@@ -71,7 +74,7 @@ import {
   
         <View style={{ padding: 10, flexDirection: "row", alignItems: "center" }}>
           <Text style={{ fontSize: 18, fontWeight: "bold" ,color:'black'}}>Thành tiền : </Text>
-          <Text style={{ fontSize: 20, fontWeight: "bold",color:'black' }}>{total} VNĐ</Text>
+          <Text style={{ fontSize: 20, fontWeight: "bold",color:'black' }}>{formattedTotal}</Text>
         </View>
         <Text style={{ marginHorizontal: 10,color:'black'}}>Đã bao gồm phí VAT</Text>
   
@@ -124,18 +127,20 @@ import {
                 <View>
                   <Image
                     style={{ width: 140, height: 140, resizeMode: "contain" }}
-                    source={{ uri: item?.image }}
+                    source={{ uri: LinkImage }}
                   />
                 </View>
   
-                <View>
-                  <Text numberOfLines={3} style={{ width: 150, marginTop: 10,color:'black' }}>
-                    {item?.title}
+                <View >
+                  <Text numberOfLines={3} style={{ width: 150, marginTop: 10, color:'black', fontWeight: "400", fontSize: 18 }}>
+                  <Text style={{ fontSize: 18, fontWeight: "bold" ,color:'black'}}>Tên loại vé : </Text>
+                    {item?.ticket_Name}
                   </Text>
                   <Text
-                    style={{ fontSize: 20, fontWeight: "bold", marginTop: 6,color:'black' }}
+                    style={{ fontSize: 18, fontWeight: "400", marginTop: 6,color:'black' }}
                   >
-                    {item?.price}
+                    <Text style={{ fontSize: 18, fontWeight: "400" ,color:'black'}}>Thành tiền : </Text>
+                    {item?.Price?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                   </Text>
                   <Image
                     style={{ width: 30, height: 30, resizeMode: "contain" }}

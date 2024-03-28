@@ -6,6 +6,7 @@ import {
   ScrollView,
   Pressable,
   Alert,
+  FlatList,
 } from 'react-native';
 import React, {useLayoutEffect, useEffect, useContext, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -13,6 +14,7 @@ import axios from 'axios';
 import {UserType} from '../UserContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import YourOrder from './YourOrder';
+import ProductItem from '../components/ProductItem';
 
 const ProfileScreen = () => {
   const {userId, setUserId} = useContext(UserType);
@@ -22,6 +24,12 @@ const ProfileScreen = () => {
   const HandleYourOrder = () => {
     navigation.navigate('YourOrder');
   };
+  const AddProduct = () => {
+    navigation.navigate('AddProduct');
+  };
+  const AddTicket = () => {
+    navigation.navigate('AddTicket');
+  }
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: '',
@@ -56,14 +64,14 @@ const ProfileScreen = () => {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.1.74:8000/profile/${userId}`,
+          `http://192.168.1.2:8000/profile/${userId}`,
         );
         const {user} = response.data;
         setUser(user);
       } catch (error) {
         console.log('error', error);
 
-        console.log("clever")
+        console.log('clever');
       }
     };
 
@@ -81,7 +89,7 @@ const ProfileScreen = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.1.74:8000/orders/${userId}`,
+          `http://192.168.1.2:8000/orders/${userId}`,
         );
         const orders = response.data.orders;
         setOrders(orders);
@@ -89,21 +97,76 @@ const ProfileScreen = () => {
         setLoading(false);
       } catch (error) {
         console.log('error', error);
-        console.log("Tai")
+        console.log('Tai');
       }
     };
 
     fetchOrders();
   }, []);
+
+  //Show Products
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get(`http://192.168.1.2:8000/Products`);
+        const orders = response.data;
+        setProducts(orders);
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+  const renderItem = ({item, index}) => (
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        flexWrap: 'wrap',
+      }}>
+      <Pressable
+        style={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        
+              <Pressable
+                style={{
+                  marginVertical: 10,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginLeft: 5,
+                  marginRight: 5,
+                }}
+                // onPress={() =>
+                //   navigation.navigate('Info', {
+                //     id: item.id,
+                //     title: item.title,
+                //     price: item?.price,
+                //     carouselImages: item?.carouselImages,
+                //     color: item?.color,
+                //     size: item?.size,
+                //     oldPrice: item?.oldPrice,
+                //     item: item,
+                //   })
+                // }>
+                >
+                <ProductItem item={item} key={index} />
+              </Pressable>
+      </Pressable>
+    </View>
+  );
+  //
+
   console.log('orders', orders);
+
   return (
     <ScrollView style={{padding: 10, flex: 1, backgroundColor: 'white'}}>
-
-      
-      <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-        Xin chào: {user?.name}
-      </Text>
-
       <View
         style={{
           flexDirection: 'row',
@@ -154,6 +217,34 @@ const ProfileScreen = () => {
         </Pressable>
 
         <Pressable
+          onPress={AddProduct}
+          style={{
+            padding: 10,
+            backgroundColor: '#E0E0E0',
+            borderRadius: 25,
+            flex: 1,
+          }}>
+          <Text style={{textAlign: 'center'}}>Thêm sản phẩm</Text>
+        </Pressable>
+        <Pressable
+          onPress={AddTicket}
+          style={{
+            padding: 10,
+            backgroundColor: '#E0E0E0',
+            borderRadius: 25,
+            flex: 1,
+          }}>
+          <Text style={{textAlign: 'center'}}>Thêm ves</Text>
+        </Pressable>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 10,
+          marginTop: 30,
+        }}>
+        <Pressable
           onPress={logout}
           style={{
             padding: 10,
@@ -165,7 +256,55 @@ const ProfileScreen = () => {
         </Pressable>
       </View>
 
-      
+      <View style={{marginTop: 30, padding: 10}}>
+        <Text style={{fontSize: 20, fontWeight: 'bold'}}>
+          Thông tin chi tiết
+        </Text>
+        <View style={{flexDirection: 'row', marginTop: 25}}>
+          <Text style={{fontWeight: 'bold'}}>Email: </Text>
+          <Text>{user?.email}</Text>
+        </View>
+        <View style={{flexDirection: 'row', marginTop: 10}}>
+          <Text style={{fontWeight: 'bold'}}>Mật khẩu: </Text>
+          <Text>{user?.password}</Text>
+        </View>
+        <View style={{flexDirection: 'row', marginTop: 10}}>
+          <Text style={{fontWeight: 'bold'}}>Ngày tạo tài khoản: </Text>
+          <Text>{user?.createdAt}</Text>
+        </View>
+        <View style={{flexDirection: 'row', marginTop: 10}}>
+          <Text style={{fontWeight: 'bold'}}>Token Xác thực: </Text>
+          <Text>{user?.verificationToken}</Text>
+        </View>
+      </View>
+
+      <View style={{marginTop: 30, padding: 10}}>
+        <Text style={{fontSize: 20, fontWeight: 'bold'}}>Sản phẩm đã thêm</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+            flexWrap: 'wrap',
+          }}
+          >
+            
+          <Pressable
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}></Pressable>
+
+          <FlatList
+            data={products}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2} // Adjust the number of columns based on your design
+          />
+        </View>
+      </View>
     </ScrollView>
   );
 };

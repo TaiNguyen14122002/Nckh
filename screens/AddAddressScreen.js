@@ -28,7 +28,7 @@ const AddAddressScreen = () => {
   //xoá 1 địa chỉ của người dùng
   const deleteAddress = async ({ userId, addressId }) => {
     try {
-      const response = await fetch(`http://192.168.1.74:8000/users/${'65773bd8d9ea4021a72b8d32'}/addresses/${addressId}`, {
+      const response = await fetch(`http://192.168.1.2:8000/users/${'65773bd8d9ea4021a72b8d32'}/addresses/${addressId}`, {
         method: 'DELETE',
       });
 
@@ -53,7 +53,7 @@ const AddAddressScreen = () => {
   const fetchAddresses = async () => {
     try {
       const response = await axios.get(
-        `http://192.168.1.74:8000/addresses/${userId}`
+        `http://192.168.1.2:8000/addresses/${userId}`
       );
       const { addresses } = response.data;
 

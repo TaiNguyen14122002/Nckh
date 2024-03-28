@@ -32,6 +32,7 @@ import AddAddressScreen from './AddAddressScreen';
 import {UserType} from '../UserContext';
 import {BottomModal, SlideAnimation, ModalContent} from 'react-native-modals';
 import Location from 'react-native-vector-icons/Entypo';
+import HandleMap from './HandleMap';
 
 const HomeScreen = () => {
   const list = [
@@ -259,165 +260,179 @@ const HomeScreen = () => {
   const {userId, setUserId} = useContext(UserType);
   const [category, setCategory] = useState('');
   const [selectedAddress, setSelectedAdress] = useState('');
-  const [items, setItems] = useState([
-    {label: 'iphone', value: 'iphone'},
-    {label: 'ipad', value: 'ipad'},
-    {label: 'Macbook', value: 'Macbook'},
-    {label: 'imac', value: 'imac'},
-  ]);
-  const products_2 = [
-    {
-      id: '20',
-      title: 'iPhone 15 Pro Max 256GB',
-      category: 'iphone',
-      oldPrice: 34990,
-      price: 33990,
-      image:
-        'https://cdn.viettelstore.vn/Images/Product/ProductImage/291703442.jpeg',
-      carouselImages: [
-        'https://cdn.viettelstore.vn/Images/Product/ProductImage/291703442.jpeg',
-        'https://wp-pa.phonandroid.com/uploads/2023/09/iphone-15-pro.jpg',
-        'https://prosteps.cloudimg.io/v7m/resizeinbox/1000x1000/fsharp0/https://tilroy.s3.eu-west-1.amazonaws.com/354/product/iPhone%2015%20Pro%20Max%20256GB%20Blue%20Titanium2_1a6fqy1lcmnzs.jpg',
-        'https://image-us.24h.com.vn/upload/2-2023/images/2023-04-11/Ly-do-khien-fan-chi-dam-cho-iPhone-15-Pro-Max-bo-qua-iPhone-15-Pro-iphone-14-pro1-1320-1681202235-831-width1200height794.jpg',
-      ],
-      color: 'Stellar Green',
-      ram: '6GB',
-      size: '128GB',
-    },
-    {
-      id: '30',
-      title: 'MacBook Air 13 inch M2 2022',
-      oldPrice: 3399000,
-      category: 'Macbook',
-      price: 3499000,
-      image:
-        'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-midnight-select-20220606?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1653084303665',
-      carouselImages: [
-        'https://www.apple.com/v/macbook-air-13-and-15-m2/e/images/overview/design/design-hero_endframe__olurqzgtbh6e_large.jpg',
-        'https://image-us.24h.com.vn/upload/2-2023/images/2023-06-11/Apple-se-tung-MacBook-Air-15-inch-M3-sieu-nhe-sieu-trau-1-1686500337-533-width875height525.jpg',
-        'https://static.doanhnhan.vn/images/upload/vanvu/02132023/cmc_1580.jpg',
-        'https://reviewed-com-res.cloudinary.com/image/fetch/s--0Pl2Rm_6--/b_white,c_limit,cs_srgb,f_auto,fl_progressive.strip_profile,g_center,q_auto,w_792/https://reviewed-production.s3.amazonaws.com/attachment/a50d564edec148a4/MacBookAirM2-03.jpg',
-      ],
-      color: 'Midnight',
-      ram: '32GB',
-      size: '512GB',
-    },
-    {
-      id: '40',
-      title: 'iPad Pro 11 2022 M2 WiFi',
-      oldPrice: 20190000,
-      category: 'ipad',
-      price: 23190000,
-      image:
-        'https://cdn.tgdd.vn/Products/Images/522/294104/ipad-pro-m2-11-wifi-xam-thumb-600x600.jpg',
-      carouselImages: [
-        'https://product.hstatic.net/1000259254/product/ipad_pro_m2_11_inch_wi-fi_space_gray-2_ee7a5fedf63e4f9e96c00d2a64fbd79a_grande.jpg',
-        'https://static1.pocketnowimages.com/wordpress/wp-content/uploads/2022/12/ipad-pro-m2-vs-ipad-air-5-featured-image.jpg',
-        'https://images.fpt.shop/unsafe/fit-in/576x430/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2022/12/2/638055947588127736_ipad-pro-11-inch-m2-wifi-xam-6.jpg',
-      ],
-      color: 'Grey',
-      ram: '8GB',
-      size: '64GB',
-    },
-    {
-      id: '40',
-      title: 'iMac 24 2023 M3',
-      oldPrice: 12999,
-      category: 'imac',
-      price: 10999,
-      image:
-        'https://laptopvang.com/wp-content/uploads/2023/11/imac-m3-purple-600x600.jpg',
-      carouselImages: [
-        'https://www.apple.com/newsroom/images/2023/10/apple-supercharges-24-inch-imac-with-new-m3-chip/tile/Apple-iMac-M3-colors-231030.jpg.og.jpg?202311010148',
-        'https://static.k-tuin.com/media/catalog/product/cache/1/image/0dc2d03fe217f8c83829496872af24a0/i/m/imac-24-pulgadas-con-chip-m3-plata.jpg',
-        'https://imageservice.asgoodasnew.com/540/18282/2/title-0003.jpg',
-      ],
-      color: 'Sliver',
-      ram: '8GB',
-      size: '256GB',
-    },
-    {
-      id: '0',
-      title: 'iPhone 15 Pro Max 256GB',
-      offer: '72%',
-      category: 'iphone',
-      oldPrice: 34990,
-      price: 33990,
-      image:
-        'https://cdn.viettelstore.vn/Images/Product/ProductImage/291703442.jpeg',
-      carouselImages: [
-        'https://cdn.viettelstore.vn/Images/Product/ProductImage/291703442.jpeg',
-        'https://wp-pa.phonandroid.com/uploads/2023/09/iphone-15-pro.jpg',
-        'https://prosteps.cloudimg.io/v7m/resizeinbox/1000x1000/fsharp0/https://tilroy.s3.eu-west-1.amazonaws.com/354/product/iPhone%2015%20Pro%20Max%20256GB%20Blue%20Titanium2_1a6fqy1lcmnzs.jpg',
-        'https://image-us.24h.com.vn/upload/2-2023/images/2023-04-11/Ly-do-khien-fan-chi-dam-cho-iPhone-15-Pro-Max-bo-qua-iPhone-15-Pro-iphone-14-pro1-1320-1681202235-831-width1200height794.jpg',
-      ],
-      color: 'Stellar Green',
-      ram: '6GB',
-      size: '128GB',
-    },
-    {
-      id: '1',
-      title: 'iphone 14',
-      offer: '40%',
-      category: 'iphone',
-      oldPrice: 7955,
-      price: 3495,
-      image: 'https://www.idboox.com/wp-content/uploads/2023/04/iPhone-14.jpg',
-      carouselImages: [
-        'https://www.cdiscount.com/pdt2/u/r/p/2/700x700/iphone14256purp/rw/apple-iphone-14-256gb-purple.jpg',
-        'https://ssscellular.co.za/wp-content/uploads/2023/06/ca243819fea772f7ca40e7d84e93bdc99644c9e8_Apple_MQ5E3ZP_A_iPhone_Hero_2.jpg',
-        'https://istyle.ma/media/catalog/product/cache/image/700x700/e9c3970ab036de70892d86c6d221abfe/i/p/iphone_14_plus_midnight_pdp_image_position-6_en_3.jpg',
-      ],
-      color: 'pink',
-      ram: '6GB',
-      size: '256GB',
-    },
-    {
-      id: '2',
-      title: 'Macbook Air M1',
-      offer: '40%',
-      category: 'Macbook',
-      oldPrice: 7955,
-      price: 3495,
-      image:
-        'https://cdn.tgdd.vn/Products/Images/44/231244/macbook-air-m1-2020-gold-600x600.jpg',
-      carouselImages: [
-        'https://cdn.tgdd.vn/Files/2022/11/17/1487723/macbook-air-m1-1.jpg',
-      ],
-      color: 'sliver',
-      ram: '32GB',
-      size: '512GB',
-    },
-    {
-      id: '3',
-      title: 'Macbook Air M2',
-      offer: '40%',
-      category: 'Macbook',
-      oldPrice: 24999,
-      price: 19999,
-      image:
-        'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-midnight-select-20220606?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1653084303665',
-      carouselImages: [
-        'https://bizweb.dktcdn.net/100/444/581/products/1-jpeg-0bfd75c7-6597-4bc0-aa73-a79ba9978225.jpg?v=1656319345070',
-        'https://thehikaku.net/pc/apple/image/22macbook-air-m2/x1400.jpg',
-        'https://reviewed-com-res.cloudinary.com/image/fetch/s--0Pl2Rm_6--/b_white,c_limit,cs_srgb,f_auto,fl_progressive.strip_profile,g_center,q_auto,w_792/https://reviewed-production.s3.amazonaws.com/attachment/a50d564edec148a4/MacBookAirM2-03.jpg',
-      ],
-      color: 'Grey',
-      ram: '32GB',
-      size: '512GB',
-    },
-  ];
+  
+  //   {
+  //     id: '20',
+  //     title: 'iPhone 15 Pro Max 256GB',
+  //     category: 'iphone',
+  //     oldPrice: 34990,
+  //     price: 33990,
+  //     image:
+  //       'https://cdn.viettelstore.vn/Images/Product/ProductImage/291703442.jpeg',
+  //     carouselImages: [
+  //       'https://cdn.viettelstore.vn/Images/Product/ProductImage/291703442.jpeg',
+  //       'https://wp-pa.phonandroid.com/uploads/2023/09/iphone-15-pro.jpg',
+  //       'https://prosteps.cloudimg.io/v7m/resizeinbox/1000x1000/fsharp0/https://tilroy.s3.eu-west-1.amazonaws.com/354/product/iPhone%2015%20Pro%20Max%20256GB%20Blue%20Titanium2_1a6fqy1lcmnzs.jpg',
+  //       'https://image-us.24h.com.vn/upload/2-2023/images/2023-04-11/Ly-do-khien-fan-chi-dam-cho-iPhone-15-Pro-Max-bo-qua-iPhone-15-Pro-iphone-14-pro1-1320-1681202235-831-width1200height794.jpg',
+  //     ],
+  //     color: 'Stellar Green',
+  //     ram: '6GB',
+  //     size: '128GB',
+  //   },
+  //   {
+  //     id: '30',
+  //     title: 'MacBook Air 13 inch M2 2022',
+  //     oldPrice: 3399000,
+  //     category: 'Macbook',
+  //     price: 3499000,
+  //     image:
+  //       'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-midnight-select-20220606?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1653084303665',
+  //     carouselImages: [
+  //       'https://www.apple.com/v/macbook-air-13-and-15-m2/e/images/overview/design/design-hero_endframe__olurqzgtbh6e_large.jpg',
+  //       'https://image-us.24h.com.vn/upload/2-2023/images/2023-06-11/Apple-se-tung-MacBook-Air-15-inch-M3-sieu-nhe-sieu-trau-1-1686500337-533-width875height525.jpg',
+  //       'https://static.doanhnhan.vn/images/upload/vanvu/02132023/cmc_1580.jpg',
+  //       'https://reviewed-com-res.cloudinary.com/image/fetch/s--0Pl2Rm_6--/b_white,c_limit,cs_srgb,f_auto,fl_progressive.strip_profile,g_center,q_auto,w_792/https://reviewed-production.s3.amazonaws.com/attachment/a50d564edec148a4/MacBookAirM2-03.jpg',
+  //     ],
+  //     color: 'Midnight',
+  //     ram: '32GB',
+  //     size: '512GB',
+  //   },
+  //   {
+  //     id: '40',
+  //     title: 'iPad Pro 11 2022 M2 WiFi',
+  //     oldPrice: 20190000,
+  //     category: 'ipad',
+  //     price: 23190000,
+  //     image:
+  //       'https://cdn.tgdd.vn/Products/Images/522/294104/ipad-pro-m2-11-wifi-xam-thumb-600x600.jpg',
+  //     carouselImages: [
+  //       'https://product.hstatic.net/1000259254/product/ipad_pro_m2_11_inch_wi-fi_space_gray-2_ee7a5fedf63e4f9e96c00d2a64fbd79a_grande.jpg',
+  //       'https://static1.pocketnowimages.com/wordpress/wp-content/uploads/2022/12/ipad-pro-m2-vs-ipad-air-5-featured-image.jpg',
+  //       'https://images.fpt.shop/unsafe/fit-in/576x430/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2022/12/2/638055947588127736_ipad-pro-11-inch-m2-wifi-xam-6.jpg',
+  //     ],
+  //     color: 'Grey',
+  //     ram: '8GB',
+  //     size: '64GB',
+  //   },
+  //   {
+  //     id: '40',
+  //     title: 'iMac 24 2023 M3',
+  //     oldPrice: 12999,
+  //     category: 'imac',
+  //     price: 10999,
+  //     image:
+  //       'https://laptopvang.com/wp-content/uploads/2023/11/imac-m3-purple-600x600.jpg',
+  //     carouselImages: [
+  //       'https://www.apple.com/newsroom/images/2023/10/apple-supercharges-24-inch-imac-with-new-m3-chip/tile/Apple-iMac-M3-colors-231030.jpg.og.jpg?202311010148',
+  //       'https://static.k-tuin.com/media/catalog/product/cache/1/image/0dc2d03fe217f8c83829496872af24a0/i/m/imac-24-pulgadas-con-chip-m3-plata.jpg',
+  //       'https://imageservice.asgoodasnew.com/540/18282/2/title-0003.jpg',
+  //     ],
+  //     color: 'Sliver',
+  //     ram: '8GB',
+  //     size: '256GB',
+  //   },
+  //   {
+  //     id: '0',
+  //     title: 'iPhone 15 Pro Max 256GB',
+  //     offer: '72%',
+  //     category: 'iphone',
+  //     oldPrice: 34990,
+  //     price: 33990,
+  //     image:
+  //       'https://cdn.viettelstore.vn/Images/Product/ProductImage/291703442.jpeg',
+  //     carouselImages: [
+  //       'https://cdn.viettelstore.vn/Images/Product/ProductImage/291703442.jpeg',
+  //       'https://wp-pa.phonandroid.com/uploads/2023/09/iphone-15-pro.jpg',
+  //       'https://prosteps.cloudimg.io/v7m/resizeinbox/1000x1000/fsharp0/https://tilroy.s3.eu-west-1.amazonaws.com/354/product/iPhone%2015%20Pro%20Max%20256GB%20Blue%20Titanium2_1a6fqy1lcmnzs.jpg',
+  //       'https://image-us.24h.com.vn/upload/2-2023/images/2023-04-11/Ly-do-khien-fan-chi-dam-cho-iPhone-15-Pro-Max-bo-qua-iPhone-15-Pro-iphone-14-pro1-1320-1681202235-831-width1200height794.jpg',
+  //     ],
+  //     color: 'Stellar Green',
+  //     ram: '6GB',
+  //     size: '128GB',
+  //   },
+  //   {
+  //     id: '1',
+  //     title: 'iphone 14',
+  //     offer: '40%',
+  //     category: 'iphone',
+  //     oldPrice: 7955,
+  //     price: 3495,
+  //     image: 'https://www.idboox.com/wp-content/uploads/2023/04/iPhone-14.jpg',
+  //     carouselImages: [
+  //       'https://www.cdiscount.com/pdt2/u/r/p/2/700x700/iphone14256purp/rw/apple-iphone-14-256gb-purple.jpg',
+  //       'https://ssscellular.co.za/wp-content/uploads/2023/06/ca243819fea772f7ca40e7d84e93bdc99644c9e8_Apple_MQ5E3ZP_A_iPhone_Hero_2.jpg',
+  //       'https://istyle.ma/media/catalog/product/cache/image/700x700/e9c3970ab036de70892d86c6d221abfe/i/p/iphone_14_plus_midnight_pdp_image_position-6_en_3.jpg',
+  //     ],
+  //     color: 'pink',
+  //     ram: '6GB',
+  //     size: '256GB',
+  //   },
+  //   {
+  //     id: '2',
+  //     title: 'Macbook Air M1',
+  //     offer: '40%',
+  //     category: 'Macbook',
+  //     oldPrice: 7955,
+  //     price: 3495,
+  //     image:
+  //       'https://cdn.tgdd.vn/Products/Images/44/231244/macbook-air-m1-2020-gold-600x600.jpg',
+  //     carouselImages: [
+  //       'https://cdn.tgdd.vn/Files/2022/11/17/1487723/macbook-air-m1-1.jpg',
+  //     ],
+  //     color: 'sliver',
+  //     ram: '32GB',
+  //     size: '512GB',
+  //   },
+  //   {
+  //     id: '3',
+  //     title: 'Macbook Air M2',
+  //     offer: '40%',
+  //     category: 'Macbook',
+  //     oldPrice: 24999,
+  //     price: 19999,
+  //     image:
+  //       'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/macbook-air-midnight-select-20220606?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1653084303665',
+  //     carouselImages: [
+  //       'https://bizweb.dktcdn.net/100/444/581/products/1-jpeg-0bfd75c7-6597-4bc0-aa73-a79ba9978225.jpg?v=1656319345070',
+  //       'https://thehikaku.net/pc/apple/image/22macbook-air-m2/x1400.jpg',
+  //       'https://reviewed-com-res.cloudinary.com/image/fetch/s--0Pl2Rm_6--/b_white,c_limit,cs_srgb,f_auto,fl_progressive.strip_profile,g_center,q_auto,w_792/https://reviewed-production.s3.amazonaws.com/attachment/a50d564edec148a4/MacBookAirM2-03.jpg',
+  //     ],
+  //     color: 'Grey',
+  //     ram: '32GB',
+  //     size: '512GB',
+  //   },
+  // ];
+  // useEffect(() => {
+  //   const fetchOrders = async () => {
+  //     try {
+  //       const response = await axios.get(`http://192.168.1.2:8000/Products`);
+  //       const orders = response.data;
+  //       setProduct(orders);
+  //     } catch (error) {
+  //       console.log('error', error);
+  //     }
+  //   };
+
+  //   fetchOrders();
+  // }, []);
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchProducts = async () => {
       try {
-        const response = await axios.get('https://fakestoreapi.com/products');
-        setProduct(response.data);
+        const response = await axios.get('http://192.168.1.2:8000/Products');
+        const products = response.data;
+        setProduct(products);
       } catch (error) {
-        console.log('error message', error);
+        console.log('Error fetching products:', error);
       }
     };
-    fetchData();
+
+    fetchProducts();
+
+    const interval = setInterval(fetchProducts, 60000); // Polling every minute
+
+    return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
+ 
 
   const onGenderOpen = useCallback(() => {
     setCompanyOpen(false);
@@ -433,7 +448,7 @@ const HomeScreen = () => {
   const fetchAddresses = async () => {
     try {
       const response = await axios.get(
-        `http://192.168.1.74:8000/addresses/${userId}`,
+        `http://192.168.1.2:8000/addresses/${userId}`,
       );
       const {addresses} = response.data;
 
@@ -458,6 +473,10 @@ const HomeScreen = () => {
   const handleSearch = () => {
     console.log('TaiTaiTaiTAI' + search);
   };
+  const handleMap =()=>{
+    navigation.navigate('HandleMap')
+    console.log("map")
+  }
 
   return (
     <>
@@ -467,417 +486,208 @@ const HomeScreen = () => {
           flex: 1,
           backgroundColor: 'white',
         }}>
-        <ScrollView>
-          <View
-            style={{
-              backgroundColor: '#1d1d1f',
-              flexDirection: 'row',
-              alignItems: 'center',
-              padding: 10,
-            }}>
-            <Pressable
+        <View>
+          <ScrollView style={{}}>
+            <View
               style={{
+                backgroundColor: 'white',
                 flexDirection: 'row',
                 alignItems: 'center',
-                marginHorizontal: 7,
-                gap: 3,
-                backgroundColor: 'white',
-                borderRadius: 3,
-                height: 38,
-                flex: 1,
+                padding: 20,
               }}>
-              <Icon
-                style={{paddingLeft: 10}}
-                name="search1"
-                size={22}
-                color="black"
-              />
-              <View
+              <Pressable
                 style={{
                   flexDirection: 'row',
-                  justifyContent: 'space-around',
                   alignItems: 'center',
+                  marginHorizontal: 7,
+                  gap: 3,
+                  backgroundColor: 'white',
+                  borderColor: '#6E6E73',
+                  borderWidth: 1,
+                  borderRadius: 50,
+                  height: 60,
+                  flex: 1,
                 }}>
-                <View>
-                  <TextInput
-                    placeholder="Tìm kiếm sản phẩm"
-                    placeholderTextColor="black"
-                    value={setSearch}
-                    onChangeText={text => setSearch(text)}
-                  />
-                </View>
-                <View>
+                <Icon
+                  style={{paddingLeft: 10}}
+                  name="search1"
+                  size={22}
+                  color="black"
+                />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                    alignItems: 'center',
+                  }}>
+                  <View style={{marginLeft: 5, fontSize: 16}}>
+                    <TextInput
+                      placeholder="Tìm kiếm từ khoá liên quan"
+                      placeholderTextColor="black"
+                      value={setSearch}
+                      onChangeText={text => setSearch(text)}
+                    />
+                  </View>
+                  {/* <View>
                   <TouchableOpacity
                     style={{backgroundColor: '#6E6E73', padding: 7, borderRadius: 5, marginLeft: 90}}
                     onPress={handleSearch}>
                     <Text style={styles.buttonText}>Tìm kiếm</Text>
                   </TouchableOpacity>
+                </View> */}
                 </View>
-              </View>
-            </Pressable>
-            <Mic name="mic" size={24} color="white" />
-          </View>
-
-          <Pressable
-            onPress={() => {
-              setModalVisible(!modalVisible); // Đảo ngược trạng thái modalVisible
-            }}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              padding: 5,
-              gap: 5,
-              backgroundColor: '#6E6E73',
-            }}>
-            <Location
-              name="location"
-              size={24}
-              color="white"
-              style={{marginLeft: 15}}
-            />
-
-            <Pressable>
-              {selectedAddress ? (
-                <Text>
-                  Địa chỉ: {selectedAddress?.name} - {selectedAddress?.street}
-                </Text>
-              ) : (
-                <Text style={{fontSize: 13, fontWeight: '500', color: 'white'}}>
-                  Thêm địa chỉ nhận hàng
-                </Text>
-              )}
-            </Pressable>
-
-            <MaterialIcons name="keyboard-arrow-down" size={24} color="white" />
-          </Pressable>
-
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {list.map((item, index) => (
-              <Pressable
-                key={index}
-                style={{
-                  margin: 10,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-                onPress={() => chooseName(item)}>
-                <Image
-                  style={{width: 50, height: 50, resizeMode: 'contain'}}
-                  source={{uri: item.image}}
-                />
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    fontSize: 12,
-                    fontWeight: '500',
-                    marginTop: 5,
-                  }}>
-                  {item?.name}
-                </Text>
               </Pressable>
-            ))}
-          </ScrollView>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+              <View style={{marginLeft: 20}}>
+                <Pressable
+                  onPress={() => {
+                    setModalVisible(!modalVisible); // Đảo ngược trạng thái modalVisible
+                  }}
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    padding: 5,
+                    gap: 5,
+                    backgroundColor: '#6E6E73',
+                    borderRadius: 10
+                  }}>
+                  <Location
+                    name="location"
+                    size={24}
+                    color="white"
+                    style={{marginLeft: 15}}
+                  />
 
-          <SliderBox
-            images={images}
-            autoPlay={true}
-            autoPlayInterval={2000}
-            circleLoop
-            dotColor={'#ffffff'}
-            inactiveDotColor="white"
-            ImageComponentStyle={{width: '100%'}}
-          />
-          <View>
-            <Text
-              style={{
-                height: 1,
-                borderColor: '#D0D0D0',
-                borderWidth: 2,
-              }}
-            />
-            <Text
+                  <Pressable>
+                    {selectedAddress ? (
+                      <Text>
+                        {selectedAddress?.name} -{' '}
+                        {selectedAddress?.street}
+                      </Text>
+                    ) : (
+                      <Text
+                        style={{
+                          fontSize: 13,
+                          fontWeight: '500',
+                          color: 'white',
+                        }}>
+                        Thêm vị trí người dùng
+                      </Text>
+                    )}
+                  </Pressable>
+
+                  <MaterialIcons
+                    name="keyboard-arrow-down"
+                    size={24}
+                    color="white"
+                  />
+                </Pressable>
+              </View>
+
+              <View style={{padding: 5,}} onPress={handleMap}>
+                <Text onPress={handleMap} style={{color: '#0098FF', fontSize: 14, marginRight: 20}}>Chỉ đường</Text>
+              </View>
+            </View>
+
+            <View
               style={{
                 padding: 10,
-                fontSize: 18,
-                fontWeight: 'bold',
-                color: 'white',
-                backgroundColor: '#1d1d1f',
+                justifyContent: 'space-around',
+                alignItems: 'center',
               }}>
-              {' '}
-              Sản phẩm bán chạy trong tuần
-            </Text>
+              <View>
+                <Text
+                  style={{fontSize: 30, color: 'black', fontWeight: 'bold'}}>
+                  Museum
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontSize: 16,
+                    fontWeight: '800',
+                    color: '#ccc',
+                  }}>
+                  Viện bảo tàng Mỹ thuật Thành phố{' '}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontSize: 16,
+                    fontWeight: '800',
+                    color: '#ccc',
+                  }}>
+                  Hồ Chí Minh
+                </Text>
+              </View>
+            </View>
 
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                flexWrap: 'wrap',
                 justifyContent: 'space-around',
+                flexWrap: 'wrap',
               }}>
-              {deals.map((item, index) => (
-                <Pressable
-                  style={{
-                    marginVertical: 10,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}
-                  onPress={() =>
-                    navigation.navigate('Info', {
-                      id: item.id,
-                      title: item.title,
-                      price: item?.price,
-                      carouselImages: item.carouselImages,
-                      color: item?.color,
-                      size: item?.size,
-                      oldPrice: item?.oldPrice,
-                      item: item,
-                    })
-                  }>
-                  <View
-                    style={{
-                      backgroundColor: 'transparent',
-                      flexDirection: 'row',
-                      padding: 5,
-                      borderRadius: 10,
-                      alignItems: 'center',
-                      justifyContent: 'space-around',
-                    }}>
-                    <Image
-                      style={{
-                        width: 180,
-                        height: 180,
-                        resizeMode: 'contain',
-                        borderRadius: 10,
-                      }}
-                      source={{uri: item?.image}}
-                    />
-
-                    <View style={{marginLeft: 20}}>
-                      <Text
+              <Pressable
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: '#0098FF',
+                  borderRadius: 5,
+                }}>
+                {search
+                  ? products
+                      .filter(item =>
+                        item.title.toLowerCase().includes(search.toLowerCase()),
+                      )
+                      .map((item, index) => (
+                        <ProductItem item={item} key={index} />
+                      ))
+                  : category
+                  ? products
+                      .filter(item => item.category === category)
+                      .map((item, index) => (
+                        <ProductItem item={item} key={index} />
+                      ))
+                  : products.map((item, index) => (
+                      <Pressable
                         style={{
+                          width: '95%',
+                          height: '90',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontWeight: '900',
-                        }}>
-                        {item?.title}
-                      </Text>
-                      <Text>Màu sắc: {item?.color}</Text>
-                      <Text>Ram: {item?.ram}</Text>
-                      <Text>Bộ nhớ: {item?.size}</Text>
-                      <View style={{flexDirection: 'row', marginTop: 20}}>
-                        <Text
-                          style={{
-                            fontSize: 18,
-                            color: '#2997FF',
-                            fontWeight: 'bold',
-                          }}>
-                          Giá bán:{' '}
-                        </Text>
-                        <Text style={{fontSize: 20, color: '#2997FF'}}>
-                          {item?.price}{' '}
-                        </Text>
-                        <Text
-                          style={{
-                            fontSize: 20,
-                            textDecorationLine: 'underline',
-                            color: '#2997FF',
-                          }}>
-                          đ
-                        </Text>
-                      </View>
-                      <View style={{flexDirection: 'row'}}>
-                        <Text style={{textDecorationLine: 'line-through'}}>
-                          Giá gốc: {item?.oldPrice}đ
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                </Pressable>
-              ))}
-            </View>
-          </View>
+                          backgroundColor: 'white',
+                          padding: 5,
+                          borderRadius: 5,
+                          borderColor: '#ccc',
+                          borderWidth: 2,
+                          marginLeft: 10,
+                          marginRight: 10,
+                          marginTop: 10,
+                          marginBottom: 10
+                        }}
+                        onPress={() =>
+                          navigation.navigate('Info', {
+                            id: item.id,
+                            title: item.title,
+                            carouselImages: item.carouselImages,
+                            
+                          })
+                        }>
+                        <ProductItem item={item} key={index} />
+                      </Pressable>
+                    ))}
+              </Pressable>
 
-          <View>
-            <View style={{marginTop: 20}} />
-            <Text
-              style={{
-                height: 1,
-                borderColor: '#D0D0D0',
-                borderWidth: 2,
-                marginTop: 15,
-              }}
-            />
-            <Text
-              style={{
-                padding: 10,
-                fontSize: 18,
-                fontWeight: 'bold',
-                color: 'white',
-                backgroundColor: '#1d1d1f',
-              }}>
-              Giảm giá trong ngày
-            </Text>
-
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {offers.map((item, index) => (
-                <Pressable
-                  style={{
-                    marginVertical: 10,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginLeft: 5,
-                    marginRight: 5,
-                  }}
-                  onPress={() =>
-                    navigation.navigate('Info', {
-                      id: item.id,
-                      title: item.title,
-                      price: item?.price,
-                      carouselImages: item.carouselImages,
-                      color: item?.color,
-                      size: item?.size,
-                      oldPrice: item?.oldPrice,
-                      item: item,
-                    })
-                  }>
-                  <Image
-                    style={{width: 150, height: 150, resizeMode: 'contain'}}
-                    source={{uri: item?.image}}
-                  />
-                  <Text style={{fontWeight: 'bold'}}>{item?.title}</Text>
-
-                  <View
-                    style={{
-                      backgroundColor: '#1d1d1f',
-                      paddingVertical: 5,
-                      width: 130,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      marginTop: 10,
-                      borderRadius: 4,
-                    }}>
-                    <Text
-                      style={{
-                        textAlign: 'center',
-                        color: 'white',
-                        fontSize: 13,
-                        fontWeight: 'bold',
-                      }}>
-                      {' '}
-                      Khuyến mãi {item?.offer}
-                    </Text>
-                  </View>
-                </Pressable>
-              ))}
-            </ScrollView>
-          </View>
-          {/* <View
-            style={{
-              marginHorizontal: 10,
-              marginTop: 20,
-              width: '45%',
-              marginBottom: open ? 50 : 15,
-            }}>
-            <DropDownPicker
-              style={{
-                borderColor: '#B7B7B7',
-                height: 30,
-                marginBottom: open ? 120 : 15,
-              }}
-              open={open}
-              value={category} //genderValue
-              items={items}
-              setOpen={setOpen}
-              setValue={setCategory}
-              setItems={setItems}
-              placeholder="choose category"
-              placeholderStyle={styles.placeholderStyles}
-              onOpen={onGenderOpen}
-              // onChangeValue={onChange}
-              zIndex={3000}
-              zIndexInverse={1000}
-            />
-          </View> */}
-          <Text
-            style={{
-              height: 1,
-              borderColor: '#D0D0D0',
-              borderWidth: 2,
-              marginTop: 15,
-            }}
-          />
-          <View>
-            <Text
-              style={{
-                padding: 10,
-                fontSize: 18,
-                fontWeight: 'bold',
-                color: 'white',
-                backgroundColor: '#1d1d1f',
-              }}>
-              Sản phẩm
-            </Text>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-around',
-              flexWrap: 'wrap',
-            }}>
-            <Pressable
-              style={{
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              {search
-                ? products_2
-                    .filter(item => item.title.toLowerCase().includes(search.toLowerCase()))
-                    .map((item, index) => (
-                      <ProductItem item={item} key={index} />
-                    ))
-                : category
-                ? products_2
-                    .filter(item => item.category === category)
-                    .map((item, index) => (
-                      <ProductItem item={item} key={index} />
-                    ))
-                : products_2.map((item, index) => (
-                    <Pressable
-                      style={{
-                        marginVertical: 10,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginLeft: 5,
-                        marginRight: 5,
-                      }}
-                      onPress={() =>
-                        navigation.navigate('Info', {
-                          id: item.id,
-                          title: item.title,
-                          price: item?.price,
-                          carouselImages: item.carouselImages,
-                          color: item?.color,
-                          size: item?.size,
-                          oldPrice: item?.oldPrice,
-                          item: item,
-                        })
-                      }>
-                      <ProductItem item={item} key={index} />
-                    </Pressable>
-                  ))}
-            </Pressable>
-
-            {/* {products_2
+              {/* {products
               ?.filter(item => item.category === category)
               .map((item, index) => (
                 <ProductItem item={item} key={index} />
               ))} */}
-          </View>
-        </ScrollView>
+            </View>
+          </ScrollView>
+        </View>
       </SafeAreaView>
 
       <BottomModal

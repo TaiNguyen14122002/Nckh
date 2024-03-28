@@ -22,7 +22,13 @@ import User from 'react-native-vector-icons/AntDesign'
 import UUser from 'react-native-vector-icons/FontAwesome'
 import House from 'react-native-vector-icons/FontAwesome'
 import Cart from 'react-native-vector-icons/FontAwesome'
-
+import AddProduct from '../screens/AddProduct';
+import HandleMap from '../screens/HandleMap';
+import Order_Sticker from '../screens/Order_Sticker'
+import Ticket from 'react-native-vector-icons/FontAwesome'
+import Ticket_outline from 'react-native-vector-icons/Ionicons'
+import Select_ticket from '../screens/Select_ticket'
+import AddTicket from '../screens/AddTicket'
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
@@ -74,12 +80,28 @@ const StackNavigator = () => {
               ),
           }}
         />
+        <Tab.Screen
+          name="Sticker"
+          component={Order_Sticker}
+          options={{
+            tabBarLabel: 'Sticker',
+            tabBarLabelStyle: {color: '#428bca'},
+            headerShown: false,
+            tabBarIcon: ({focused}) =>
+              focused ? (
+                <Ticket name="ticket" size={24} color="black" />
+              ) : (
+                <Ticket_outline name="ticket-outline
+                " size={24} color="black" />
+              ),
+          }}
+        />
       </Tab.Navigator>
     );
   }
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName='HomeScreen'>
         <Stack.Screen
           name="Login"
           component={LoginScreen}
@@ -96,9 +118,9 @@ const StackNavigator = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Info"
+          name="News_Details"
           component={ProductinfoScreen}
-          options={{headerShown: false}}
+          options={{headerShown: true}}
         />
         <Stack.Screen
           name="Address"
@@ -125,6 +147,30 @@ const StackNavigator = () => {
           name="YourOrder"
           component={YourOrder}
           options={{ headerShown: false }}
+          
+        />
+        <Stack.Screen
+          name="AddProduct"
+          component={AddProduct}
+          options={{ headerShown: true }}
+          
+        />
+        <Stack.Screen
+          name="HandleMap"
+          component={HandleMap}
+          options={{ headerShown: false }}
+          
+        />
+        <Stack.Screen
+          name="Select_ticket"
+          component={Select_ticket}
+          options={{ headerShown: true }}
+          
+        />
+        <Stack.Screen
+          name="AddTicket"
+          component={AddTicket}
+          options={{ headerShown: true }}
           
         />
       </Stack.Navigator>

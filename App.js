@@ -8,6 +8,8 @@ import { Provider } from 'react-redux';
 import store from './store';
 import { UserContext } from './UserContext';
 import { ModalPortal } from "react-native-modals";
+import AddProduct from './screens/AddProduct';
+import ProductList from './screens/ShowProduct';
 
 
 const Stack = createStackNavigator();
@@ -20,6 +22,7 @@ const App = () => {
            <ModalPortal />
         </UserContext>
       </Provider>
+      {/* <AddProduct/> */}
     </>
   )
 }

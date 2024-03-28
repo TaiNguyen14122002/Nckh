@@ -7,6 +7,7 @@ import {
   TextInput,
   ImageBackground,
   Dimensions,
+  Image,
 } from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -17,13 +18,18 @@ import Location from 'react-native-vector-icons/Entypo';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {addToCart} from '../redux/CartReducer';
+import Bookmark from 'react-native-vector-icons/Entypo';
+import Share from 'react-native-vector-icons/Entypo'
 
 const ProductinfoScreen = () => {
+
+  const backgroundImageUri = route?.params?.image;
   const route = useRoute();
   const {width} = Dimensions.get('window');
   const navigation = useNavigation();
   const height = (width * 100) / 100;
   const dispatch = useDispatch();
+  const [search, setSearch] = useState('');
 
   const [addedToCart, setAddedToCart] = useState(false);
 
@@ -37,200 +43,113 @@ const ProductinfoScreen = () => {
 
   const cart = useSelector(state => state.cart.cart);
   console.log(cart);
+  const LinkImage =
+    'https://vietnamtimes.org.vn/stores/news_dataimages/honganhvnt/052021/13/19/in_article/2109_baotangmythuat2-1620712508.png?rt=20210513192300';
+
   return (
-    <ScrollView
-      style={{ flex: 1, backgroundColor: 'white'}}
+    <View
+      style={{flex: 1, backgroundColor: 'white'}}
       showsHorizontalScrollIndicator={false}>
-      <View
-        style={{
-          backgroundColor: '#1d1d1f',
-          flexDirection: 'row',
-          alignItems: 'center',
-          padding: 10,
-        }}>
-        <Pressable
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginHorizontal: 7,
-            gap: 10,
-            backgroundColor: 'white',
-            borderRadius: 3,
-            height: 38,
-            flex: 1,
-          }}>
-          <Icon
-            style={{paddingLeft: 10}}
-            name="search1"
-            size={22}
-            color="black"
-          />
-          <TextInput
-            placeholder="Tìm kiếm sản phẩm"
-            placeholderTextColor="black"
-          />
-        </Pressable>
-        <Mic name="mic" size={24} color="white" />
-      </View>
-
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {route.params.carouselImages.map((item, index) => (
-          <ImageBackground
-            style={{width, height, marginTop: 25, resizeMode: 'contain'}}
-            source={{uri: item}}
-            key={index}>
-            <View
-              style={{
-                padding: 20,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <View
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20,
-                  backgroundColor: '#C60C30',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                }}>
-                <Text
-                  style={{
-                    color: 'white',
-                    textAlign: 'center',
-                    fontWeight: '600',
-                    fontSize: 12,
-                  }}>
-                  20% off
-                </Text>
-              </View>
-              <View
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20,
-                  backgroundColor: '#E0E0E0',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                }}>
-                <Sharealt name="sharealt" size={24} color="black" />
-              </View>
-            </View>
-
-            <View
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                backgroundColor: '#E0E0E0',
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'row',
-                marginTop: 'auto',
-                marginLeft: 20,
-                marginBottom: 20,
-              }}>
-              <Heart name="heart" size={24} color="black" />
-            </View>
-          </ImageBackground>
-        ))}
-      </ScrollView>
-
-      <View style={{padding: 10}}>
-        <Text style={{fontSize: 15, fontWeight: '500', color: 'black'}}>
-          {route?.params?.title}
-        </Text>
-
-        <Text style={{fontSize: 18, fontWeight: '600', color: 'black'}}>
-          {route?.params?.price}đ
-        </Text>
-      </View>
-
-      <Text style={{height: 1, borderColor: 'D0D0D0', borderWidth: 1}} />
-
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          padding: 10,
-        }}>
-        <Text style={{color: 'black'}}>Màu sắc: </Text>
-        <Text style={{fontSize: 15, fontWeight: 'bold', color: 'black'}}>
-          {route?.params?.color}
-        </Text>
-      </View>
-
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          padding: 10,
-        }}>
-        <Text style={{color: 'black'}}>Dung lượng: </Text>
-        <Text style={{fontSize: 15, fontWeight: 'bold', color: 'black'}}>
-          {route?.params?.size}
-        </Text>
-      </View>
-
-      <Text style={{height: 1, borderColor: 'D0D0D0', borderWidth: 1}} />
-
-      <View style={{padding: 10}}>
-        <Text
-          style={{
-            fontSize: 15,
-            fontWeight: 'bold',
-            marginVertical: 5,
-            color: 'black',
-          }}>
-          Thành tiền: {route.params.price}đ
-        </Text>
-        <Text style={{color: '#00CED1', color: 'black'}}>
-          Đơn hàng sẽ được duyệt và giao trong vòng từ 3-5 ngày làm việc.
-        </Text>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            marginVertical: 5,
-            alignItems: 'center',
-            gap: 5,
-          }}>
-          <Location name="location" size={24} color="black" />
-          <Text style={{fontSize: 15, fontWeight: '500', color: 'black'}}>
-            Sản phẩm được giao từ
-          </Text>
-        </View>
-      </View>
-
-      <Text style={{color: 'green', marginHorizontal: 10, fontWeight: '500'}}>
-        Còn hàng
-      </Text>
-
-      <Pressable
-        onPress={() => addItemToCart(route?.params?.item)}
-        style={{
-          backgroundColor: '#1d1d1f',
-          padding: 10,
-          borderRadius: 20,
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginHorizontal: 10,
-          marginVertical: 10,
-        }}>
-        {addedToCart ? (
-          <View>
-            <Text style={{color: 'white'}}>Đã thêm</Text>
-          </View>
-        ) : (
-          <Text style={{color: 'white'}}>Thêm vào giỏ hàng</Text>
-        )}
-      </Pressable>
-
       
-    </ScrollView>
+
+      <View
+        style={{
+          backgroundColor: '#0098FF',
+          borderRadius: 5,
+          padding: 10,
+          marginTop: 10,
+          marginLeft: 10,
+          marginRight: 10,
+          height: 700
+        }}>
+        <ScrollView style={{backgroundColor: 'white', borderRadius: 5, padding: 10}}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {/* {route.params.product_image.map((item, index) => ( */}
+              <ImageBackground
+                style={{width: 335, height, marginTop: 10, resizeMode: 'contain'}}
+                source={{uri: route?.params?.product_image }}
+                
+                >
+                <View
+                  style={{
+                    padding: 20,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'flex-end',
+                  }}>
+                  <View
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 20,
+                      backgroundColor: '#E0E0E0',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                    }}>
+                    <Share name="share" size={24} color="black" />
+                  </View>
+                  
+                </View>
+
+                <View
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: 20,
+                    backgroundColor: '#E0E0E0',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    marginTop: 'auto',
+                    marginLeft: 20,
+                    marginBottom: 20,
+                  }}>
+                  <Heart name="heart" size={24} color="black" />
+                </View>
+              </ImageBackground>
+            
+          </ScrollView>
+
+          <View style={{padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+            <Text style={{fontSize: 22, fontWeight: 'bold', color: 'black'}}>
+              {route?.params?.product_Name}
+              {/* Tên tin tức */}
+            </Text>
+            <Bookmark name="bookmark" size={24} color="black" />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              padding: 10,
+            }}>
+            {/* <Text style={{color: 'black'}}>Màu sắc: </Text> */}
+            <Text style={{fontSize: 15,color: 'black'}}>
+              {route?.params?.product_information}
+              
+              {/* Chi tiết tin tức */}
+            </Text>
+          </View>
+          
+          <View style={{padding: 10, marginBottom: 20, flexDirection: 'row', justifyContent: 'flex-end'}}>
+            <Text style={{fontSize: 13, fontWeight: 'bold', color: 'black'}}>
+              
+              {route?.params?.product_createdAt}
+              {/* Ngày cập nhập tin tức */}
+            </Text>
+          </View>
+          
+          
+        </ScrollView>
+        <View style={{marginTop: 10}}>
+
+          </View>
+        
+      </View>
+      
+    </View>
+    
   );
 };
 

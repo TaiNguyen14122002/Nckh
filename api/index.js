@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 
 const jwt = require('jsonwebtoken');
 app.listen(port, () => {
-  console.log("Server is running on port 8000");
+  console.log("Server is running on port " + port);
 });
 
 mongoose
@@ -38,6 +38,89 @@ mongoose
 
 const User = require("./models/user");
 const Order = require("./models/order");
+const Product = require("./models/Product")
+const Ticket = require("./models/Ticket");
+const Admin = require("./models/admin");
+
+
+
+
+app.get('/Tickets', async (req, res) => {
+  try {
+    const Tickets = await Ticket.find();
+    res.json(Tickets);
+  } catch (error) {
+    console.error('Error fetching productssssss:', error);
+    res.status(500).json({ error: 'Failed to fetch products' });
+  }
+});
+app.get('/Products', async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (error) {
+    console.error('Error fetching productssssss:', error);
+    res.status(500).json({ error: 'Failed to fetch products' });
+  }
+});
+
+//Add Ticket
+app.post("/AddTicket", async (req, res) => {
+  console.log("Tai")
+  try {
+    const {ticket_Name, Price, Note} = req.body;
+    const NewTicket = new Ticket({ ticket_Name, Price, Note});
+    await NewTicket.save();
+    console.log("Tai")
+    console.log("Thêm vé thành công", NewTicket);
+    res.status(201).json({
+      message:
+        "Thành công",
+    });
+  } catch (error) {
+    console.log("Lỗi khi thêm vé:", error);
+    res.status(500).json({ message: "Thêm vé thất bại" });
+  }
+});
+
+app.post("/AddProduct", async (req, res) => {
+  console.log("Tai")
+  try {
+    const { product_Name, product_image, product_information} = req.body;
+    const NewProduct = new Product({ product_Name, product_image, product_information});
+    await NewProduct.save();
+    console.log("Tai")
+    console.log("Thêm tin tức thành công", NewProduct);
+    res.status(201).json({
+      message:
+        "Thành công",
+    });
+  } catch (error) {
+    console.log("Lỗi khi thêm tin tức:", error);
+    res.status(500).json({ message: "Thêm tin tức thất bại" });
+  }
+});
+
+
+app.get('/users', async (req, res) => {
+  try {
+    const user = await User.find();
+    res.json(user);
+  } catch (error) {
+    console.error('Error fetching productssssss:', error);
+    res.status(500).json({ error: 'Failed to fetch products' });
+  }
+});
+
+app.get('/orders', async (req, res) => {
+  try {
+    const orders = await Order.find();
+    res.json(orders);
+  } catch (error) {
+    console.error('Error fetching productssssss:', error);
+    res.status(500).json({ error: 'Failed to fetch products' });
+  }
+});
 
 app.post("/register", async (req, res) => {
   try {

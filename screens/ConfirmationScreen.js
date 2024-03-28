@@ -8,6 +8,9 @@ import {cleanCart} from '../redux/CartReducer';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Alert} from 'react-native';
 import RazorpayCheckout from 'react-native-razorpay'
+import { equestBillingAgreement } from 'react-native-paypal';
+import { requestOneTimePayment } from 'react-native-paypal';
+import DocCircCleO from 'react-native-vector-icons/FontAwesome'
 
 const ConfirmationScreen = () => {
   const steps = [
@@ -30,7 +33,7 @@ const ConfirmationScreen = () => {
   const fetchAddresses = async () => {
     try {
       const response = await axios.get(
-        `http://192.168.1.74:8000/addresses/${userId}`,
+        `http://192.168.1.2:8000/addresses/${userId}`,
       );
       const {addresses} = response.data;
 
@@ -50,13 +53,13 @@ const ConfirmationScreen = () => {
       const orderData = {
         userId: userId,
         cartItems: cart,
-        totalPrice: total,
+        totalPrice: formattedTotal,
         shippingAddress: selectedAddress,
         paymentMethod: selectedOption,
       };
 
       const response = await axios.post(
-        'http://192.168.1.74:8000/orders',
+        'http://192.168.1.2:8000/orders',
         orderData,
       );
 
@@ -77,14 +80,14 @@ const ConfirmationScreen = () => {
     try {
       const options = {
         description: "Adding To Wallet",
-        currency: "INR",
-        name: "Amazon",
+        currency: "USD",
+        name: "TCL_STORE",
         key: "rzp_test_E3GWYimxN7YMk8",
         amount: total * 100,
         prefill: {
           email: "void@razorpay.com",
           contact: "9191919191",
-          name: "RazorPay Software",
+          name: "Tai Nguyen",
         },
         theme: { color: "#F37254" },
       };
@@ -102,7 +105,7 @@ const ConfirmationScreen = () => {
       };
 
       const response = await axios.post(
-        "http://192.168.1.74:8000/orders",
+        "http://192.168.1.2:8000/orders",
         orderData
       );
       if (response.status === 200) {
@@ -181,7 +184,7 @@ const ConfirmationScreen = () => {
                   borderRadius: 6,
                 }}>
                 {selectedAddress && selectedAddress._id === item?._id ? (
-                  <Icon name="dot-circle" size={20} color="#008397" />
+                  <DocCircCleO name="dot-circle-o" size={20} color="#008397" />
                 ) : (
                   <Icon
                     onPress={() => setSelectedAdress(item)}
@@ -315,7 +318,7 @@ const ConfirmationScreen = () => {
               marginTop: 10,
             }}>
             {option ? (
-              <Icon name="dot-circle" size={20} color="#008397" />
+              <DocCircCleO name="dot-circle-o" size={20} color="#008397" />
             ) : (
               <Icon
                 onPress={() => setOption(!option)}
@@ -366,7 +369,7 @@ const ConfirmationScreen = () => {
               marginTop: 12,
             }}>
             {selectedOption === 'cash' ? (
-              <Icon name="dot-circle" size={20} color="#008397" />
+              <DocCircCleO name="dot-circle-o" size={20} color="#008397" />
             ) : (
               <Icon
                 onPress={() => setSelectedOption('cash')}
@@ -390,13 +393,13 @@ const ConfirmationScreen = () => {
               gap: 7,
               marginTop: 12,
             }}>
-            {selectedOption === 'card' ? (
-              <Icon name="dot-circle" size={20} color="#008397" />
+            {selectedOption === 'paypal' ? (
+              <DocCircCleO name="dot-circle-o" size={20} color="#008397" />
             ) : (
               <Icon
                 onPress={() => {
-                  setSelectedOption('card');
-                  Alert.alert('UPI/Debit card', 'Pay Online', [
+                  setSelectedOption('paypal');
+                  Alert.alert('UPI/Debit paypal', 'Pay Online', [
                     {
                       text: 'Cancel',
                       onPress: () => console.log('Cancel is pressed'),
