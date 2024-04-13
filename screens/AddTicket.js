@@ -21,7 +21,7 @@ const AddTicker = () => {
         };
 
         // send a post request to the backend API
-        axios.post("http://192.168.1.2:8000/AddTicket", Ticket)
+        axios.post("http://192.168.1.8:8000/AddTicket", Ticket)
         .then((message) => {
             console.log(message);
             Alert.alert("Thông báo", "Thêm vé thành công");

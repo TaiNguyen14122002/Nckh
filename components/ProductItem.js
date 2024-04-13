@@ -21,6 +21,15 @@ const ProductItem = ({item}) => {
     }, 60000);
   };
 
+  const dateTimeParts = item?.product_createdAt.split('T');
+  const datePart = dateTimeParts[0];
+  
+  // Tách thành mảng ngày, tháng, năm
+  const [year, month, day] = datePart.split('-');
+
+  // Tạo chuỗi ngày tháng năm mới
+  const formattedDate = `${day}-${month}-${year}`;
+
   const LinkImage = 'https://p16-va.lemon8cdn.com/tos-alisg-v-a3e477-sg/6486523394594f58948026dde1e799ca~tplv-tej9nj120t-origin.webp';
   return (
     <Pressable
@@ -81,7 +90,7 @@ const ProductItem = ({item}) => {
               alignItems: 'center',
               justifyContent: 'space-between',
             }}>
-            <View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <Text
                 style={{
                   fontWeight: '400',
@@ -90,6 +99,7 @@ const ProductItem = ({item}) => {
                   marginTop: 10,
                   marginLeft: 10,
                   flexWrap: 'wrap',
+                  textAlign: 'justify',
                 }}>
                 
                 {item?.product_information}
@@ -105,7 +115,8 @@ const ProductItem = ({item}) => {
             }}>
             <Text style={{fontSize: 13, fontWeight: 'bold', color: '#1d1d1f'}}>
               
-              {item?.product_createdAt}đ
+              {/* {item?.product_createdAt} */}
+              Ngày cập nhập: {formattedDate}
               {/* Ngày cập nhập tin tức */}
             </Text>
           </View>

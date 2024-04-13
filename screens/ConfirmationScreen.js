@@ -25,15 +25,19 @@ const ConfirmationScreen = () => {
   const {userId, setUserId} = useContext(UserType);
   const cart = useSelector(state => state.cart.cart);
   const total = cart
-    ?.map(item => item.price * item.quantity)
-    .reduce((curr, prev) => curr + prev, 0);
+      ?.map((item) => item.Price * item.quantity)
+      .reduce((curr, prev) => curr + prev, 0);
+      const formattedTotal = total?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }); // Đổi 'VND' nếu đơn vị tiền tệ khác
+
+      const amountInCent = parseInt(parseFloat(formattedTotal) * 100);
+
   useEffect(() => {
     fetchAddresses();
   }, []);
   const fetchAddresses = async () => {
     try {
       const response = await axios.get(
-        `http://192.168.1.2:8000/addresses/${userId}`,
+        `http://192.168.1.8:8000/addresses/${userId}`,
       );
       const {addresses} = response.data;
 
@@ -53,13 +57,13 @@ const ConfirmationScreen = () => {
       const orderData = {
         userId: userId,
         cartItems: cart,
-        totalPrice: formattedTotal,
+        totalPrice: amountInCent,
         shippingAddress: selectedAddress,
         paymentMethod: selectedOption,
       };
 
       const response = await axios.post(
-        'http://192.168.1.2:8000/orders',
+        'http://192.168.1.8:8000/orders',
         orderData,
       );
 
@@ -81,9 +85,9 @@ const ConfirmationScreen = () => {
       const options = {
         description: "Adding To Wallet",
         currency: "USD",
-        name: "TCL_STORE",
+        name: "Museum_HCM",
         key: "rzp_test_E3GWYimxN7YMk8",
-        amount: total * 100,
+        amount: amountInCent,
         prefill: {
           email: "void@razorpay.com",
           contact: "9191919191",
@@ -105,7 +109,7 @@ const ConfirmationScreen = () => {
       };
 
       const response = await axios.post(
-        "http://192.168.1.2:8000/orders",
+        "http://192.168.1.8:8000/orders",
         orderData
       );
       if (response.status === 200) {

@@ -28,6 +28,7 @@ const YourOrder = () => {
       setAddedToCart(false);
     }, 60000);
   };
+  const LinkImage = 'https://blogcdn.muaban.net/wp-content/uploads/2022/07/23071106/bao-tang-my-thuat-thanh-pho-ho-chi-minh-6.jpg';
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: '',
@@ -62,7 +63,7 @@ const YourOrder = () => {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.1.2:8000/profile/${userId}`,
+          `http://192.168.1.8:8000/profile/${userId}`,
         );
         const {user} = response.data;
         setUser(user);
@@ -85,7 +86,7 @@ const YourOrder = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.1.2:8000/orders/${userId}`,
+          `http://192.168.1.8:8000/orders/${userId}`,
         );
         const orders = response.data.orders;
         setOrders(orders);
@@ -123,16 +124,16 @@ const YourOrder = () => {
               }}
               key={order._id}>
               {/* Render the order information here */}
-              {order.products.slice(0, 1)?.map(product => (
+              {order.Ticket.slice(0, 1)?.map(Ticket => (
                 <View
                   style={{
                     marginVertical: 10,
                     flexDirection: 'row',
                     alignItems: 'center',
                   }}
-                  key={product._id}>
+                  key={Ticket._id}>
                   <Image
-                    source={{uri: product.image}}
+                    source={{uri: LinkImage}}
                     style={{width: 100, height: 100, resizeMode: 'contain'}}
                   />
                   <View>
@@ -144,7 +145,7 @@ const YourOrder = () => {
                         style={{width: 230}}
                         numberOfLines={1}
                         ellipsizeMode="tail">
-                        {product.name}
+                        {Ticket.ticket_Name}
                       </Text>
                     </View>
                     <View style={{flexDirection: 'row'}}>
@@ -155,18 +156,10 @@ const YourOrder = () => {
                         style={{width: 150}}
                         numberOfLines={1}
                         ellipsizeMode="tail">
-                        {product.quantity}
+                        {Ticket.quantity}
                       </Text>
                     </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <Text style={{width: 80, fontWeight: 'bold'}}>Màu sắc:</Text>
-                      <Text
-                        style={{width: 150}}
-                        numberOfLines={1}
-                        ellipsizeMode="tail">
-                        {product.color}đ
-                      </Text>
-                    </View>
+                    
                     <View style={{flexDirection: 'row'}}>
                       <Text style={{width: 80, fontWeight: 'bold'}}>
                         Thành tiền:
@@ -175,14 +168,23 @@ const YourOrder = () => {
                         style={{width: 150}}
                         numberOfLines={1}
                         ellipsizeMode="tail">
-                        {product.price}đ
+                        {Ticket.price}đ
+                      </Text>
+                    </View>
+                    <View style={{flexDirection: 'row'}}>
+                      <Text style={{width: 80, fontWeight: 'bold'}}>Thời gian đặt vé:</Text>
+                      <Text
+                        style={{width: 150}}
+                        numberOfLines={1}
+                        ellipsizeMode="tail">
+                        {Ticket.Time}đ
                       </Text>
                     </View>
                     <Pressable
                       style={{marginHorizontal: 10, marginVertical: 15}}>
                       <Pressable
                         onPress={() =>
-                          addItemToCart(product)
+                          addItemToCart(Ticket)
                         }
                         style={{
                           backgroundColor: '#1d1d1f',

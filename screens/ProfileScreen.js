@@ -9,6 +9,7 @@ import {
   FlatList,
 } from 'react-native';
 import React, {useLayoutEffect, useEffect, useContext, useState} from 'react';
+
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {UserType} from '../UserContext';
@@ -21,6 +22,20 @@ const ProfileScreen = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
+
+  // Hàm xử lý đăng xuất
+const handleLogout = async () => {
+  try {
+    // Xóa thông tin đăng nhập khỏi lưu trữ
+    await AsyncStorage.removeItem('userInfo');
+    // Chuyển hướng người dùng đến màn hình đăng nhập hoặc màn hình chính
+    // Thông qua navigation.navigate('Tên_Màn_Hình')
+    navigation.navigate('Login'); // Thay 'Login' bằng tên màn hình đăng nhập của bạn
+  } catch (e) {
+    console.error('Lỗi khi đăng xuất:', e);
+  }
+};
+
   const HandleYourOrder = () => {
     navigation.navigate('YourOrder');
   };
@@ -64,7 +79,7 @@ const ProfileScreen = () => {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.1.2:8000/profile/${userId}`,
+          `http://192.168.1.8:8000/profile/${userId}`,
         );
         const {user} = response.data;
         setUser(user);
@@ -89,7 +104,7 @@ const ProfileScreen = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.1.2:8000/orders/${userId}`,
+          `http://192.168.1.8:8000/orders/${userId}`,
         );
         const orders = response.data.orders;
         setOrders(orders);
@@ -109,7 +124,7 @@ const ProfileScreen = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(`http://192.168.1.2:8000/Products`);
+        const response = await axios.get(`http://192.168.1.8:8000/Products`);
         const orders = response.data;
         setProducts(orders);
       } catch (error) {
@@ -164,6 +179,15 @@ const ProfileScreen = () => {
   //
 
   console.log('orders', orders);
+
+  const dateTimeParts = user?.createdAt.split('T');
+  const datePart = dateTimeParts[0];
+  
+  // Tách thành mảng ngày, tháng, năm
+  const [year, month, day] = datePart.split('-');
+
+  // Tạo chuỗi ngày tháng năm mới
+  const formattedDate = `${day}-${month}-${year}`;
 
   return (
     <ScrollView style={{padding: 10, flex: 1, backgroundColor: 'white'}}>
@@ -234,27 +258,10 @@ const ProfileScreen = () => {
             borderRadius: 25,
             flex: 1,
           }}>
-          <Text style={{textAlign: 'center'}}>Thêm ves</Text>
+          <Text style={{textAlign: 'center'}}>Thêm vé</Text>
         </Pressable>
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: 10,
-          marginTop: 30,
-        }}>
-        <Pressable
-          onPress={logout}
-          style={{
-            padding: 10,
-            backgroundColor: '#E0E0E0',
-            borderRadius: 25,
-            flex: 1,
-          }}>
-          <Text style={{textAlign: 'center'}}>Đăng xuất</Text>
-        </Pressable>
-      </View>
+      
 
       <View style={{marginTop: 30, padding: 10}}>
         <Text style={{fontSize: 20, fontWeight: 'bold'}}>
@@ -270,12 +277,59 @@ const ProfileScreen = () => {
         </View>
         <View style={{flexDirection: 'row', marginTop: 10}}>
           <Text style={{fontWeight: 'bold'}}>Ngày tạo tài khoản: </Text>
-          <Text>{user?.createdAt}</Text>
+          <Text>{formattedDate}</Text>
         </View>
-        <View style={{flexDirection: 'row', marginTop: 10}}>
-          <Text style={{fontWeight: 'bold'}}>Token Xác thực: </Text>
-          <Text>{user?.verificationToken}</Text>
-        </View>
+        
+      </View>
+
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 10,
+          marginTop: 30,
+        }}>
+        <Pressable
+          onPress={HandleYourOrder}
+          style={{
+            padding: 10,
+            backgroundColor: '#E0E0E0',
+            borderRadius: 25,
+            flex: 1,
+          }}>
+          <Text style={{textAlign: 'center'}}>Đổi mật khẩu</Text>
+        </Pressable>
+
+        <Pressable
+          style={{
+            padding: 10,
+            backgroundColor: '#E0E0E0',
+            borderRadius: 25,
+            flex: 1,
+          }}
+          onPress={() =>
+            Alert.alert('Thông tin tài khoản: ', `Người dùng: ${user?.name}`)
+          }>
+          <Text style={{textAlign: 'center'}}>Chỉnh sửa thông tin</Text>
+        </Pressable>
+      </View>
+        <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 10,
+          marginTop: 30,
+        }}>
+        <Pressable
+          onPress={handleLogout}
+          style={{
+            padding: 10,
+            backgroundColor: '#E0E0E0',
+            borderRadius: 25,
+            flex: 1,
+          }}>
+          <Text style={{textAlign: 'center'}}>Đăng xuất</Text>
+        </Pressable>
       </View>
 
       <View style={{marginTop: 30, padding: 10}}>

@@ -46,7 +46,7 @@ const Order_Sticket = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(`http://192.168.1.2:8000/Tickets`);
+        const response = await axios.get(`http://192.168.1.8:8000/Tickets`);
         const orders = response.data;
         setTicket(orders);
       } catch (error) {
