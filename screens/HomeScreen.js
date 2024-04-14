@@ -405,7 +405,7 @@ const HomeScreen = () => {
   // useEffect(() => {
   //   const fetchOrders = async () => {
   //     try {
-  //       const response = await axios.get(`http://192.168.1.8:8000/Products`);
+  //       const response = await axios.get(`http://192.168.1.2:8000/Products`);
   //       const orders = response.data;
   //       setProduct(orders);
   //     } catch (error) {
@@ -418,7 +418,7 @@ const HomeScreen = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://192.168.1.8:8000/Products');
+        const response = await axios.get('http://192.168.1.2:8000/Products');
         const products = response.data;
         setProduct(products);
       } catch (error) {
@@ -448,7 +448,7 @@ const HomeScreen = () => {
   const fetchAddresses = async () => {
     try {
       const response = await axios.get(
-        `http://192.168.1.8:8000/addresses/${userId}`,
+        `http://192.168.1.2:8000/addresses/${userId}`,
       );
       const {addresses} = response.data;
 

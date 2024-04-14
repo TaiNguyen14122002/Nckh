@@ -66,7 +66,7 @@ const AddProduct = () => {
       product_information: product_information,
     };
 
-    axios.post("http://192.168.1.8:8000/AddProduct", Product)
+    axios.post("http://192.168.1.2:8000/AddProduct", Product)
         .then((message) => {
             console.log(message);
             Alert.alert("Thông báo", "Thêm vé thành công");

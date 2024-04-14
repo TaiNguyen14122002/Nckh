@@ -26,12 +26,12 @@ const LoginScreen = () => {
       email: email,
       password: password,
     };
-    axios.post('http://192.168.1.8:8000/login', user).then(Response => {
+    axios.post('http://192.168.1.2:8000/login', user).then(Response => {
       console.log(Response);
       const token = Response.data.token;
       AsyncStorage.setItem('authToken', token);
       navigation.replace('Main');
-      console.log("Tai")
+      //console.log("Tai")
     });
   };
   return (

@@ -6,22 +6,22 @@ const orderSchema = new mongoose.Schema({
     ref: "User",
     require: true,
   },
-  Ticket: [
+  cartItems: [
     {
-      ticket_Name: {
+      Note:{
         type: String,
+        required: true,
+      },
+      Price: {
+        type: Number,
         required: true,
       },
       quantity: {
         type: Number,
         required: true,
       },
-      Time: {
-        type: Date,
-        required: true,
-      },
-      price: {
-        type: Number,
+      ticket_Name: {
+        type: String,
         required: true,
       },
     },
@@ -67,6 +67,6 @@ const orderSchema = new mongoose.Schema({
 });
 
 
-const Order = mongoose.model("Order",orderSchema);
+const Order = mongoose.model("Order", orderSchema);
 
 module.exports = Order;

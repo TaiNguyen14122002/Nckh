@@ -17,19 +17,19 @@ const ConfirmationScreen = () => {
     {title: 'Địa chỉ', content: 'Address Form'},
     {title: 'Vận chuyển', content: 'Delivery Options'},
     {title: 'Phương thức thanh toán', content: 'Payment Details'},
-    {title: 'Tiến hành đặt hàng', content: 'Order Summary'},
   ];
   const navigation = useNavigation();
   const [currentStep, setCurrentStep] = useState(0);
   const [addresses, setAddresses] = useState([]);
   const {userId, setUserId} = useContext(UserType);
-  const cart = useSelector(state => state.cart.cart);
+  const cart = useSelector((state) => state.cart.cart);
+  
   const total = cart
       ?.map((item) => item.Price * item.quantity)
       .reduce((curr, prev) => curr + prev, 0);
-      const formattedTotal = total?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }); // Đổi 'VND' nếu đơn vị tiền tệ khác
+    const formattedTotal = total?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }); // Đổi 'VND' nếu đơn vị tiền tệ khác
 
-      const amountInCent = parseInt(parseFloat(formattedTotal) * 100);
+    const amountInCent = parseInt(parseFloat(formattedTotal) * 100);
 
   useEffect(() => {
     fetchAddresses();
@@ -37,7 +37,7 @@ const ConfirmationScreen = () => {
   const fetchAddresses = async () => {
     try {
       const response = await axios.get(
-        `http://192.168.1.8:8000/addresses/${userId}`,
+        `http://192.168.1.2:8000/addresses/${userId}`,
       );
       const {addresses} = response.data;
 
@@ -46,35 +46,35 @@ const ConfirmationScreen = () => {
       console.log('error', error);
     }
   };
-  console.log(addresses);
+  
   const dispatch = useDispatch();
   const [selectedAddress, setSelectedAdress] = useState('');
   const [option, setOption] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
-
+  console.log(cart)
   const handlePlaceOrder = async () => {
     try {
       const orderData = {
         userId: userId,
-        cartItems: cart,
         totalPrice: amountInCent,
         shippingAddress: selectedAddress,
         paymentMethod: selectedOption,
+        cartItems: cart,
       };
+      console.log("orderData:", orderData);
 
       const response = await axios.post(
-        'http://192.168.1.8:8000/orders',
+        'http://192.168.1.2:8000/orders',
         orderData,
-      );
-
+      )
       if (response.status === 200) {
-        navigation.navigate('Order');
-        dispatch(cleanCart());
+        //navigation.navigate('Order');
+        //dispatch(cleanCart());
         console.log('order created successfully', response.data);
       } else {
         console.log('error creating order', response.data);
-        console.log('Tai');
       }
+      
     } catch (error) {
       console.log('error', error);
     }
@@ -98,7 +98,7 @@ const ConfirmationScreen = () => {
 
       const data = await RazorpayCheckout.open(options);
 
-      console.log(data);
+      //console.log(data);
 
       const orderData = {
         userId: userId,
@@ -109,7 +109,7 @@ const ConfirmationScreen = () => {
       };
 
       const response = await axios.post(
-        "http://192.168.1.8:8000/orders",
+        'http://192.168.1.2:8000/orders',
         orderData
       );
       if (response.status === 200) {
@@ -119,8 +119,9 @@ const ConfirmationScreen = () => {
       } else {
         console.log("error creating order", response.data);
       }
+      
     } catch (error) {
-      console.log("error", error);
+      //console.log("error", error);
     }
   };
   return (
@@ -562,10 +563,12 @@ const ConfirmationScreen = () => {
               alignItems: 'center',
               marginTop: 20,
             }}>
+            
             <Text style={{color: 'white'}}>Đặt hàng</Text>
           </Pressable>
         </View>
       )}
+      
     </ScrollView>
   );
 };

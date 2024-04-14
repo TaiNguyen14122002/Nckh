@@ -10,7 +10,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(`http://192.168.1.8:8000/Products`);
+        const response = await axios.get(`http://192.168.1.2:8000/Products`);
         const orders = response.data;
         setProducts(orders);
       } catch (error) {
